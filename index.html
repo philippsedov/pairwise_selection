@@ -10,14 +10,13 @@
     padding: 0;
     margin: 0;
     background: #000;
+    color: #fff;
    }
 
    .image-container {
     display: flex;
     justify-content: center;
-    margin: 0px;
-    padding: 0;
-    width: 100%;
+    margin-bottom: 20px;
    }
 
    img {
@@ -27,7 +26,7 @@
 
    #result {
     display: none;
-    margin-top: 0px;
+    margin-top: 20px;
     text-align: center;
    }
 
@@ -49,14 +48,23 @@
   </div>
 
   <script>
-   // Сюда картинки
    // Определение массива изображений с их идентификаторами и количеством лайков
    var images = [
+    // Сюда имена картинок и разные id
+
     { id: 1, src: "image1.jpg", likes: 0 },
     { id: 2, src: "image2.jpg", likes: 0 },
     { id: 3, src: "image3.jpg", likes: 0 },
     { id: 4, src: "image4.jpg", likes: 0 },
     { id: 5, src: "image5.jpg", likes: 0 },
+    /* для того чтобы насоздавать нужное кол-во строк в массиве можно воспользоватся гугл таблицами или екселем используя это выражение
+
+    в первую строку это
+    { id: 1, src: "image1.jpg", likes: 0 },
+
+    во вторую это
+    =REGEXREPLACE(A$1;"[0-9]";text(row();0))
+    и раскопировать её */
    ];
 
    // Индекс текущего выбранного изображения
