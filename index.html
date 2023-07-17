@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Опрос изображений</title>
+  <style>
+   body {
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+   }
+
+   .image-container {
+    display: flex;
+    justify-content: center;
+    margin: 0px;
+    padding: 0;
+    width: 100%;
+   }
+
+   img {
+    width: 100%;
+    cursor: pointer;
+   }
+
+   #result {
+    display: none;
+    margin-top: 0px;
+    text-align: center;
+   }
+
+   #ranking {
+    list-style-type: none;
+    padding: 0;
+   }
+
+   #ranking li {
+    margin-bottom: 10px;
+   }
+  </style>
+ </head>
+ <body>
+  <div id="survey" class="image-container"></div>
+
+  <div id="result">
+   <ol id="ranking"></ol>
+  </div>
+
+  <script>
+   // Сюда картинки
+   // Определение массива изображений с их идентификаторами и количеством лайков
+   var images = [
+    { id: 1, src: "image1.jpg", likes: 0 },
+    { id: 2, src: "image2.jpg", likes: 0 },
+    { id: 3, src: "image3.jpg", likes: 0 },
+    { id: 4, src: "image4.jpg", likes: 0 },
+    { id: 5, src: "image5.jpg", likes: 0 },
+   ];
+
+   // Индекс текущего выбранного изображения
+   var currentIndex = 0;
+
+   // Создаем все возможные пары изображений
+   var imagePairs = [];
+   for (var i = 0; i < images.length - 1; i++) {
+    for (var j = i + 1; j < images.length; j++) {
+     imagePairs.push([images[i], images[j]]);
+    }
+   }
+
+   // Функция вызывается при голосовании за выбранное изображение
+   function vote(selectedImage) {
+    // Увеличиваем количество лайков выбранного изображения
+    selectedImage.likes++;
+
+    // Проверяем, достигнут ли конец опроса
+    if (currentIndex === imagePairs.length - 1) {
+     showResults(); // Если достигнут, показываем результаты
+    } else {
+     currentIndex++; // Если не достигнут, переходим к следующей паре изображений
+     showNextImage(); // Показываем следующую пару изображений для голосования
+    }
+   }
+
+   // Функция показывает следующую пару изображений для голосования
+   function showNextImage() {
+    var surveyContainer = document.getElementById("survey");
+    surveyContainer.innerHTML = "";
+
+    var pair = imagePairs[currentIndex];
+    for (var i = 0; i < pair.length; i++) {
+     var image = document.createElement("img");
+     image.src = pair[i].src;
+     image.id = pair[i].id;
+     image.onclick = function () {
+      vote(images.find((img) => img.id === parseInt(this.id)));
+     };
+
+     var container = document.createElement("div");
+     container.className = "image-container";
+     container.appendChild(image);
+     surveyContainer.appendChild(container);
+    }
+   }
+
+   // Функция показывает результаты опроса
+   function showResults() {
+    var surveyContainer = document.getElementById("survey");
+    var resultContainer = document.getElementById("result");
+    var rankingContainer = document.getElementById("ranking");
+
+    // Скрываем контейнер опроса и отображаем контейнер результатов
+    surveyContainer.style.display = "none";
+    resultContainer.style.display = "block";
+
+    // Сортируем изображения по убыванию количества лайков
+    images.sort(function (a, b) {
+     return b.likes - a.likes;
+    });
+
+    // Для каждого изображения создаем элемент списка в контейнере рейтинга
+    for (var i = 0; i < images.length; i++) {
+     var listItem = document.createElement("li");
+     var image = document.createElement("img");
+     image.src = images[i].src;
+     image.style.width = "50%";
+     image.style.maxWidth = "500px";
+
+     listItem.textContent = i + 1 + " ";
+     listItem.appendChild(image);
+     rankingContainer.appendChild(listItem);
+    }
+   }
+
+   // Показываем первую пару изображений для голосования
+   showNextImage();
+  </script>
+ </body>
+</html>
