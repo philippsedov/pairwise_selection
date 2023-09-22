@@ -63,7 +63,7 @@
     { id: 1, src: "image1.jpg", likes: 0 },
 
     во вторую это
-    =REGEXREPLACE(A$1;"[0-9]";text(row();0))
+    =REGEXREPLACE(REGEXREPLACE(A$1;"[0-9]";text(row();0));"likes: \d+";"likes: 0")
     и раскопировать её */
    ];
 
